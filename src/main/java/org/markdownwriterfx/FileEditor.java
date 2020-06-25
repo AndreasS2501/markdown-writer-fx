@@ -209,7 +209,7 @@ class FileEditor
 		return previewType;
 	}
 
-	private void activated() {
+	public void activated() {
 		if( tab.getTabPane() == null || !tab.isSelected())
 			return; // tab is already closed or no longer active
 

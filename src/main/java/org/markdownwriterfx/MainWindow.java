@@ -287,6 +287,9 @@ class MainWindow
 				e -> getActiveSmartEdit().surroundSelection("\n\n```\n", "\n```\n\n", Messages.get("MainWindow.insertFencedCodeBlockText")),
 				activeFileEditorIsNull);
 
+		Action booksTransclusion = new Action("Books", "Shortcut+B", BOOK,
+			e -> bookTransclusionAction());
+
 		Action insertHeader1Action = new Action(Messages.get("MainWindow.insertHeader1Action"), "Shortcut+1", HEADER,
 				e -> getActiveSmartEdit().insertHeading(1, Messages.get("MainWindow.insertHeader1Text")),
 				activeFileEditorIsNull);
@@ -417,7 +420,9 @@ class MainWindow
 				new Action(insertBlockquoteAction, createActiveEditBooleanProperty(SmartEdit::blockquoteProperty)),
 				new Action(insertFencedCodeBlockAction, createActiveEditBooleanProperty(SmartEdit::fencedCodeProperty)),
 				null,
-				new Action(insertHeader1Action, createActiveEditBooleanProperty(SmartEdit::headerProperty)));
+				new Action(insertHeader1Action, createActiveEditBooleanProperty(SmartEdit::headerProperty)),
+			new Action(booksTransclusion, createActiveEditBooleanProperty(SmartEdit::headerProperty))
+		);
 
 		// horizontal spacer
 		Region spacer = new Region();
@@ -468,6 +473,17 @@ class MainWindow
 		}
 
 		return new VBox(menuBar, toolBar);
+	}
+
+	private void bookTransclusionAction(){
+
+		FileEditor fe=fileEditorTabPane.newEditor();
+
+
+		fe.activated();
+		fe.getEditor().getSmartEdit().TT("# HELLO WORLD");
+	//	fe.load();
+
 	}
 
 	private MarkdownEditorPane getActiveEditor() {

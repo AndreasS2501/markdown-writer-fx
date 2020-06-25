@@ -178,6 +178,10 @@ public class SmartEdit
 		});
 	}
 
+	public void TT(String t){
+		textArea.insertText(0, t);
+	}
+
 	private final BooleanProperty bold = new SimpleBooleanProperty();
 	public BooleanProperty boldProperty() { return bold; }
 
