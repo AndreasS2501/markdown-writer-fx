@@ -27,9 +27,19 @@
 
 package org.markdownwriterfx;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.prefs.Preferences;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -475,14 +485,40 @@ class MainWindow
 		return new VBox(menuBar, toolBar);
 	}
 
+	public final static String REPO_DIR="C:\\cygwin64\\home\\ascheinert\\connectingdots";
+
 	private void bookTransclusionAction(){
 
 		FileEditor fe=fileEditorTabPane.newEditor();
 
 
+
+		List<String> r=new ArrayList<>();
+
+		try {
+
+			r=Files.list(Paths.get(REPO_DIR)).flatMap( x -> lineSave(x).filter(l ->
+						l.contains("Book:"))).collect(Collectors.toList());
+
+		}catch(IOException e){
+
+		}
+
+		r.stream().forEach(System.out::println);
+		String newt=r.stream().collect(Collectors.joining("\n"));
 		fe.activated();
-		fe.getEditor().getSmartEdit().TT("# HELLO WORLD");
+		fe.getEditor().getSmartEdit().TT(newt);
+
 	//	fe.load();
+
+	}
+
+	private Stream<String> lineSave(Path p){
+	try{
+		return Files.lines(p);
+		}catch(IOException e){
+		return Stream.empty();
+	}
 
 	}
 
